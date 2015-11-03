@@ -1,51 +1,22 @@
-require 'csv'
-
-desc "Imports Sales Engine CSV file into an ActiveRecord table"
+desc "Parsing CSV Data"
 task :import => :environment do
+  require 'csv'
 
-  file1 = 'db/customers.csv'
-  file2 = 'db/invoice_items.csv'
-  file3 = 'db/invoices.csv'
-  file4 = 'db/items.csv'
-  file5 = 'db/merchants.csv'
-  file6 = 'db/transactions.csv'
+  puts "Pulling in CSV data!"
 
-  CSV.foreach(file1, headers: true, header_converters: :symbol) do |row|
-      Customer.create!(row.to_hash)
+  models_and_file_paths = {Customer => "customers.csv", Merchant => "merchants.csv", Item => "items.csv", Invoice => "invoices.csv", Transaction => "transactions.csv", InvoiceItem => "invoice_items.csv"}
+
+  models_and_file_paths.each do |model, file_path|
+    create_objects(model, file_path)
   end
 
-  CSV.foreach(file2, headers: true, header_converters: :symbol) do |row|
-    InvoiceItem.create!({:id          => row[:id],
-                          :quantity    => row[:quantity],
-                          :unit_price  => row[:unit_price].to_f / 100,
-                          :item_id     => row[:item_id],
-                          :invoice_id  => row[:invoice_id],
-                          :created_at  => row[:created_at],
-                          :updated_at  => row[:updated_at]
-                 })
+  def create_objects(model, file_path)
+    CSV.foreach("./db/#{file_path}",
+                headers: true,
+                header_converters: :symbol,
+                converters: :numeric) do |row|
+      puts row
+      model.create(row.to_h)
+    end
   end
-
-  CSV.foreach(file3, headers: true, header_converters: :symbol) do |row|
-    Invoice.create!(row.to_hash)
-  end
-
-  CSV.foreach(file4, headers: true, header_converters: :symbol) do |row|
-    Item.create!({:id          => row[:id],
-                  :name        => row[:name],
-                  :description => row[:description],
-                  :unit_price  => row[:unit_price].to_f / 100,
-                  :merchant_id => row[:merchant_id],
-                  :created_at  => row[:created_at],
-                  :updated_at  => row[:updated_at]
-                 })
-  end
-
-  CSV.foreach(file5, headers: true, header_converters: :symbol) do |row|
-    Merchant.create!(row.to_hash)
-  end
-
-  CSV.foreach(file6, headers: true, header_converters: :symbol) do |row|
-    Transaction.create!(row.to_hash)
-  end
-
 end
