@@ -21,9 +21,29 @@ class Api::V1::InvoicesController < ApplicationController
     respond_with Invoice.limit(1).order("RANDOM()")
   end
 
+  def transactions
+    respond_with Invoice.find_by(invoice_params).transactions
+  end
+
+  def items
+    respond_with Invoice.find_by(invoice_params).items
+  end
+
+  def customer
+    respond_with Invoice.find_by(invoice_params).customer
+  end
+
+  def merchant
+    respond_with Invoice.find_by(invoice_params).merchant
+  end
+
+  def invoice_items
+    respond_with Invoice.find_by(invoice_params).invoice_items
+  end
+
   private
 
   def invoice_params
-    params.permit(:id, :invoice_id, :merchant_id, :status)
+    params.permit(:id, :invoice_item_id, :merchant_id, :status)
   end
 end

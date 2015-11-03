@@ -13,6 +13,12 @@ Rails.application.routes.draw do
       end
 
       resources :invoices, only: [:index,:show] do
+        get :items
+        get :transactions
+        get :invoice_items
+        get :customer
+        get :merchant
+
         collection do
           get 'find'
           get 'find_all'
