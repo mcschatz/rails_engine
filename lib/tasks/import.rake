@@ -4,12 +4,6 @@ task :import => :environment do
 
   puts "Pulling in CSV data!"
 
-  models_and_file_paths = {Customer => "customers.csv", Merchant => "merchants.csv", Item => "items.csv", Invoice => "invoices.csv", Transaction => "transactions.csv", InvoiceItem => "invoice_items.csv"}
-
-  models_and_file_paths.each do |model, file_path|
-    create_objects(model, file_path)
-  end
-
   def create_objects(model, file_path)
     CSV.foreach("./db/#{file_path}",
                 headers: true,
@@ -18,5 +12,11 @@ task :import => :environment do
       puts row
       model.create(row.to_h)
     end
+  end
+
+  models_and_file_paths = {Customer => "customers.csv", Merchant => "merchants.csv", Item => "items.csv", Invoice => "invoices.csv", Transaction => "transactions.csv", InvoiceItem => "invoice_items.csv"}
+
+  models_and_file_paths.each do |model, file_path|
+    create_objects(model, file_path)
   end
 end
