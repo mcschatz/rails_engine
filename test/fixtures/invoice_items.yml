@@ -1,0 +1,11 @@
+one:
+  quantity: 10
+  unit_price: 50
+  item_id: 1
+  invoice_id: 1
+
+two:
+  quantity: 2
+  unit_price: 25
+  item_id: 3
+  invoice_id: 6
