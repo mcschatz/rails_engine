@@ -38,6 +38,8 @@ Rails.application.routes.draw do
       end
 
       resources :transactions, only: [:index,:show] do
+        get :invoice
+
         collection do
           get 'find'
           get 'find_all'
@@ -46,6 +48,9 @@ Rails.application.routes.draw do
       end
 
       resources :customers, only: [:index,:show] do
+        get :invoices
+        get :transactions
+
         collection do
           get 'find'
           get 'find_all'
