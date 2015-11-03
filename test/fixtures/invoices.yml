@@ -1,0 +1,9 @@
+one:
+  status: "shipped"
+  customer_id: 1
+  merchant_id: 1
+
+two:
+  status: "shipped"
+  customer_id: 3
+  merchant_id: 4
