@@ -5,7 +5,6 @@ class Invoice < ActiveRecord::Base
   belongs_to :merchant
   belongs_to :customer
 
-  def self.successful
-    self.includes(:transactions).where(transactions: { result: "success" })
-  end
+
+  scope :successful, -> { joins(:transactions).merge(Transaction.successful) }
 end

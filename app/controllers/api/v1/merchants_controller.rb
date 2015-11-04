@@ -45,6 +45,10 @@ class Api::V1::MerchantsController < ApplicationController
     end
   end
 
+  def favorite_customer
+    respond_with Merchant.find(params[:id]).favorite_customer
+  end
+
   private
 
   def merchant_params

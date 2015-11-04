@@ -5,6 +5,8 @@ class Item < ActiveRecord::Base
 
   before_save :convert_unit_price
 
+  default_scope {order(:id)}
+
   def convert_unit_price
     self.unit_price = self.unit_price/100
   end

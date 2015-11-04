@@ -1,6 +1,7 @@
 class Merchant < ActiveRecord::Base
   has_many :invoices
   has_many :items
+  has_many :customers, through: :invoices
 
   def self.most_revenue(params)
     if params[:quantity] == "x"
@@ -22,14 +23,14 @@ class Merchant < ActiveRecord::Base
 
   def self.most_items(params)
     if params[:quantity] == "x"
-      self.all.sort_by { |merchant| merchant.items }.reverse
+      self.all.sort_by { |merchant| merchant.single_items }.reverse
     else
       quantity = params[:quantity].to_i - 1
-      self.all.sort_by { |merchant| merchant.items }.reverse[0..quantity]
+      self.all.sort_by { |merchant| merchant.single_items }.reverse[0..quantity]
     end
   end
 
-  def items
+  def single_items
     invoices.successful.joins(:invoice_items).sum('quantity')
   end
 
@@ -41,7 +42,15 @@ class Merchant < ActiveRecord::Base
 
   def single_revenue(date)
     date = nil if date == "x"
-    total = self.revenue(date)
-    { :revenue => total.round(2) }
+    { :revenue => self.revenue(date).round(2) }
+  end
+
+  def favorite_customer
+    customers.select("customers.*, count(invoices.customer_id) AS invoice_count")
+                    .joins(invoices: :transactions)
+                    .merge(Transaction.successful)
+                    .group("customers.id")
+                    .order("invoice_count DESC")
+                    .first
   end
 end
