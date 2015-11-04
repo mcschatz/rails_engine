@@ -5,9 +5,9 @@ class CreateItems < ActiveRecord::Migration
     create_table :items do |t|
       t.citext :name
       t.string :description
-      t.string :unit_price
-
-      t.timestamps null: false
+      t.decimal :unit_price
+      t.datetime :created_at
+      t.datetime :updated_at
     end
   end
 end

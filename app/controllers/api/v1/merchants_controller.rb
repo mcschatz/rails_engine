@@ -29,9 +29,13 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with Merchant.find_by(merchant_params).invoices
   end
 
+  def most_revenue
+    respond_with Merchant.most_revenue(params)
+  end
+
   private
 
   def merchant_params
-    params.permit(:id, :name)
+    params.permit(:id, :name, :created_at, :updated_at)
   end
 end

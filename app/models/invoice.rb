@@ -4,4 +4,8 @@ class Invoice < ActiveRecord::Base
   has_many :items, through: :invoice_items
   belongs_to :merchant
   belongs_to :customer
+
+  def self.successful
+    self.includes(:transactions).where(transactions: { result: "success" })
+  end
 end
