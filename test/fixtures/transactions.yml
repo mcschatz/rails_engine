@@ -1,20 +1,14 @@
 one:
   credit_card_number: 1111222233334444
-  status: nil
   invoice_id: 1
-  credit_card_expiration_date: nil
   result: "success"
 
 two:
   credit_card_number: 2222333344445555
-  status: nil
   invoice_id: 2
-  credit_card_expiration_date: nil
   result: "success"
 
 three:
   credit_card_number: 3333444455556666
-  status: nil
   invoice_id: 3
-  credit_card_expiration_date: nil
   result: "success"
