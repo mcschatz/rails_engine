@@ -37,6 +37,14 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with Merchant.most_items(merchant_params)
   end
 
+  def revenue
+    if params[:id]
+      respond_with Merchant.find(params[:id]).single_revenue(params[:date])
+    else
+      respond_with Merchant.total_revenue(params[:date])
+    end
+  end
+
   private
 
   def merchant_params

@@ -32,4 +32,16 @@ class Merchant < ActiveRecord::Base
   def items
     invoices.successful.joins(:invoice_items).sum('quantity')
   end
+
+  def self.total_revenue(date)
+    date = nil if date == "x"
+    total = self.all.map { |merchant| merchant.revenue(date) }.sum
+    { :total_revenue => total.round(2) }
+  end
+
+  def single_revenue(date)
+    date = nil if date == "x"
+    total = self.revenue(date)
+    { :revenue => total.round(2) }
+  end
 end
