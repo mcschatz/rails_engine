@@ -4,4 +4,7 @@ class Invoice < ActiveRecord::Base
   has_many :items, through: :invoice_items
   belongs_to :merchant
   belongs_to :customer
+
+
+  scope :successful, -> { joins(:transactions).merge(Transaction.successful) }
 end

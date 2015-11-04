@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151103053154) do
+ActiveRecord::Schema.define(version: 20151104164646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,15 +20,15 @@ ActiveRecord::Schema.define(version: 20151103053154) do
   create_table "customers", force: :cascade do |t|
     t.citext   "first_name"
     t.citext   "last_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "invoice_items", force: :cascade do |t|
-    t.string   "quantity"
-    t.string   "unit_price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "quantity"
+    t.decimal  "unit_price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "item_id"
     t.integer  "invoice_id"
   end
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 20151103053154) do
 
   create_table "invoices", force: :cascade do |t|
     t.string   "status"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "customer_id"
     t.integer  "merchant_id"
   end
@@ -50,9 +50,9 @@ ActiveRecord::Schema.define(version: 20151103053154) do
   create_table "items", force: :cascade do |t|
     t.citext   "name"
     t.string   "description"
-    t.string   "unit_price"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.decimal  "unit_price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "merchant_id"
   end
 
@@ -60,18 +60,16 @@ ActiveRecord::Schema.define(version: 20151103053154) do
 
   create_table "merchants", force: :cascade do |t|
     t.citext   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "transactions", force: :cascade do |t|
     t.string   "credit_card_number"
-    t.string   "status"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.integer  "invoice_id"
-    t.string   "credit_card_expiration_date"
     t.string   "result"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "invoice_id"
   end
 
   add_index "transactions", ["invoice_id"], name: "index_transactions_on_invoice_id", using: :btree

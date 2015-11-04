@@ -29,10 +29,10 @@ class Api::V1::TransactionsController < ApplicationController
 
   def transaction_params
     params.permit(:id,
-                  :status,
                   :invoice_id,
                   :credit_card_number,
-                  :credit_card_expiration_date,
-                  :result)
+                  :result,
+                  :created_at,
+                  :updated_at)
   end
 end

@@ -28,6 +28,6 @@ class Api::V1::InvoiceItemsControllerTest < ActionController::TestCase
     get :show, id: invoice_item.id, format: :json
 
     json_response = JSON.parse(response.body)
-    assert_equal json_response["quantity"], "10"
+    assert_equal json_response["quantity"], 10
   end
 end
