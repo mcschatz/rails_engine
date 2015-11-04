@@ -19,4 +19,17 @@ class Merchant < ActiveRecord::Base
           .joins(:invoice_items).sum('quantity * unit_price')
     end
   end
+
+  def self.most_items(params)
+    if params[:quantity] == "x"
+      self.all.sort_by { |merchant| merchant.items }.reverse
+    else
+      quantity = params[:quantity].to_i - 1
+      self.all.sort_by { |merchant| merchant.items }.reverse[0..quantity]
+    end
+  end
+
+  def items
+    invoices.successful.joins(:invoice_items).sum('quantity')
+  end
 end
