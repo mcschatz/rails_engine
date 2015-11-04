@@ -3,8 +3,12 @@ class Merchant < ActiveRecord::Base
   has_many :items
 
   def self.most_revenue(params)
-    quantity = params[:quantity].to_i - 1
-    self.all.sort_by { |merchant| merchant.revenue }.reverse[0..quantity]
+    if params[:quantity] == "x"
+      self.all.sort_by { |merchant| merchant.revenue }.reverse
+    else
+      quantity = params[:quantity].to_i - 1
+      self.all.sort_by { |merchant| merchant.revenue }.reverse[0..quantity]
+    end
   end
 
   def revenue(date = nil)

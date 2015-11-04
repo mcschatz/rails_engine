@@ -30,12 +30,12 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def most_revenue
-    respond_with Merchant.most_revenue(params)
+    respond_with Merchant.most_revenue(merchant_params)
   end
 
   private
 
   def merchant_params
-    params.permit(:id, :name, :created_at, :updated_at)
+    params.permit(:id, :name, :created_at, :updated_at, :quantity)
   end
 end
