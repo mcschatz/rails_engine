@@ -28,11 +28,7 @@ class Merchant < ActiveRecord::Base
 
   def self.total_revenue(date)
     total = self.all.map { |merchant| merchant.revenue(date) }.sum
-    { total_revenue: total.round(2) }
-  end
-
-  def single_revenue(date)
-    { revenue: self.revenue(date).round(2) }
+    total.round(2)
   end
 
   def self.most_items(quantity)

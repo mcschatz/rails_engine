@@ -103,7 +103,7 @@ class Api::V1::MerchantsControllerTest < ActionController::TestCase
   end
 
   test "#total revenue" do
-    get :revenue, format: :json
+    get :total_revenue, format: :json
     revenue = JSON.parse(response.body, symbolize_names: true)
 
     assert_response :success
@@ -111,7 +111,7 @@ class Api::V1::MerchantsControllerTest < ActionController::TestCase
   end
 
   test "#total revenue with date" do
-    get :revenue, format: :json, date: "2013-03-13T06:54:11.000Z"
+    get :total_revenue, format: :json, date: "2013-03-13T06:54:11.000Z"
     revenue = JSON.parse(response.body, symbolize_names: true)
 
     assert_response :success
