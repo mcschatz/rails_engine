@@ -86,9 +86,8 @@ class Api::V1::MerchantsControllerTest < ActionController::TestCase
     get :most_revenue, format: :json, quantity: "2"
     merchants = JSON.parse(response.body, symbolize_names: true)
     merchant = merchants.first
-
     assert_response :success
-    assert_equal 2, merchants.count
+    assert_equal 1, merchants.count
     assert_equal "AWonderfulVase", merchant[:name]
   end
 
