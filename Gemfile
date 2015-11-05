@@ -12,6 +12,7 @@ gem 'responders'
 
 group :development, :test do
   gem 'pry'
+  gem 'simplecov'
 end
 
 group :development do

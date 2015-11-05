@@ -7,9 +7,9 @@ two:
   name: Chocolate
   description: dark
   unit_price: 20
-  merchant_id: 1
+  merchant_id: 980190962
 three:
   name: Wine
   description: pinot noir
   unit_price: 15
-  merchant_id: 2
+  merchant_id: 980190962

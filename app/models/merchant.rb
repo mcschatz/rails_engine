@@ -26,6 +26,15 @@ class Merchant < ActiveRecord::Base
     end
   end
 
+  def self.total_revenue(date)
+    total = self.all.map { |merchant| merchant.revenue(date) }.sum
+    { total_revenue: total.round(2) }
+  end
+
+  def single_revenue(date)
+    { revenue: self.revenue(date).round(2) }
+  end
+
   def self.most_items(quantity)
     select("merchants.*, sum(invoice_items.quantity) as item_count")
       .joins(:invoice_items)
@@ -33,17 +42,6 @@ class Merchant < ActiveRecord::Base
       .order("item_count DESC")
       .merge(InvoiceItem.successful)
       .limit(quantity)
-  end
-
-  def self.total_revenue(date)
-    date = nil if date == "x"
-    total = self.all.map { |merchant| merchant.revenue(date) }.sum
-    { :total_revenue => total.round(2) }
-  end
-
-  def single_revenue(date)
-    date = nil if date == "x"
-    { :revenue => self.revenue(date).round(2) }
   end
 
   def favorite_customer

@@ -5,5 +5,10 @@ one:
 
 two:
   status: "shipped"
-  customer_id: 3
-  merchant_id: 4
+  customer_id: 1
+  merchant_id: 2
+
+three:
+  status: "shipped"
+  customer_id: 1
+  merchant_id: 1
