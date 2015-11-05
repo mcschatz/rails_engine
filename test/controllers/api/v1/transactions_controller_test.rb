@@ -28,6 +28,45 @@ class Api::V1::TransactionsControllerTest < ActionController::TestCase
     get :show, id: transaction.id, format: :json
 
     json_response = JSON.parse(response.body)
-    assert_equal json_response["invoice_id"], 113629430
+    assert_equal json_response["id"], 980190962
+  end
+
+  test "#find" do
+    get :find, format: :json, invoice_id: "113629430"
+    transaction = JSON.parse(response.body, symbolize_names: true)
+
+    assert_response :success
+    assert_equal "1111222233334444", transaction[:credit_card_number]
+    assert_equal "success", transaction[:result]
+    assert_equal 113629430, transaction[:invoice_id]
+  end
+
+  test "#find_all" do
+    get :find_all, format: :json, result: "success"
+    transactions = JSON.parse(response.body, symbolize_names: true)
+    transaction = transactions.first
+
+    assert_response :success
+    assert_equal 3, transactions.count
+    assert_equal "1111222233334444", transaction[:credit_card_number]
+    assert_equal "success", transaction[:result]
+    assert_equal 113629430, transaction[:invoice_id]
+  end
+
+  test "#random" do
+    get :random, format: :json
+    transaction = JSON.parse(response.body, symbolize_names: true)
+
+    assert_response :success
+    assert_equal 1, transaction.count
+  end
+
+  test "#invoice" do
+    get :invoice, format: :json, id: Transaction.last.id
+    invoice = JSON.parse(response.body, symbolize_names: true)
+
+    assert_response :success
+    assert_equal 113629430, invoice[:id]
+
   end
 end
