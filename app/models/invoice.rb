@@ -7,4 +7,8 @@ class Invoice < ActiveRecord::Base
 
 
   scope :successful, -> { joins(:transactions).merge(Transaction.successful) }
+
+  def self.pending
+    joins(:transactions).merge(Transaction.unsuccessful)
+  end
 end

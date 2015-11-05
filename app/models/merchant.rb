@@ -14,10 +14,14 @@ class Merchant < ActiveRecord::Base
 
   def revenue(date = nil)
     if date.nil?
-      invoices.successful.joins(:invoice_items).sum('quantity * unit_price')
+      invoices.successful
+              .joins(:invoice_items)
+              .sum('quantity * unit_price')
     else
-      invoices.successful.where(invoices: { created_at: date })
-          .joins(:invoice_items).sum('quantity * unit_price')
+      invoices.successful
+              .where(invoices: { created_at: date })
+              .joins(:invoice_items)
+              .sum('quantity * unit_price')
     end
   end
 
@@ -31,7 +35,9 @@ class Merchant < ActiveRecord::Base
   end
 
   def single_items
-    invoices.successful.joins(:invoice_items).sum('quantity')
+    invoices.successful
+            .joins(:invoice_items)
+            .sum('quantity')
   end
 
   def self.total_revenue(date)
@@ -47,10 +53,14 @@ class Merchant < ActiveRecord::Base
 
   def favorite_customer
     customers.select("customers.*, count(invoices.customer_id) AS invoice_count")
-                    .joins(invoices: :transactions)
-                    .merge(Transaction.successful)
-                    .group("customers.id")
-                    .order("invoice_count DESC")
-                    .first
+             .joins(invoices: :transactions)
+             .merge(Transaction.successful)
+             .group("customers.id")
+             .order("invoice_count DESC")
+             .first
+  end
+
+  def pending_invoices
+    invoices.pending.map(&:customer).uniq
   end
 end
