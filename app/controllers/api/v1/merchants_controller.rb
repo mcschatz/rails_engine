@@ -34,7 +34,7 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def most_items
-    respond_with Merchant.most_items(merchant_params)
+    respond_with Merchant.most_items(params[:quantity])
   end
 
   def revenue
@@ -47,6 +47,10 @@ class Api::V1::MerchantsController < ApplicationController
 
   def favorite_customer
     respond_with Merchant.find(params[:id]).favorite_customer
+  end
+
+  def customers_with_pending_invoices
+    respond_with Merchant.find(params[:id]).pending_invoices
   end
 
   private

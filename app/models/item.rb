@@ -10,4 +10,28 @@ class Item < ActiveRecord::Base
   def convert_unit_price
     self.unit_price = self.unit_price/100
   end
+
+  def self.most_revenue(quantity)
+    select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+      .joins(:invoice_items)
+      .group("items.id")
+      .order("revenue DESC")
+      .limit(quantity)
+  end
+
+  def self.most_items(quantity)
+    select("items.*, count(invoice_items.quantity) as item_count")
+      .joins(:invoice_items)
+      .group("items.id")
+      .order("item_count DESC")
+      .limit(quantity)
+  end
+
+  def best_day
+    invoice_items.successful
+                 .group("invoices.created_at")
+                 .order("sum_quantity DESC")
+                 .sum("quantity")
+                 .first[0]
+  end
 end

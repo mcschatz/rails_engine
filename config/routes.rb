@@ -7,6 +7,7 @@ Rails.application.routes.draw do
           get :invoices
           get :revenue
           get :favorite_customer
+          get :customers_with_pending_invoices
         end
 
         collection do
@@ -39,12 +40,15 @@ Rails.application.routes.draw do
         member do
           get :invoice_items
           get :merchant
+          get :best_day
         end
 
         collection do
           get 'find'
           get 'find_all'
           get 'random'
+          get 'most_revenue'
+          get 'most_items'
         end
       end
 
