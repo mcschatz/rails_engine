@@ -33,12 +33,5 @@ class Item < ActiveRecord::Base
                  .order("sum_quantity DESC")
                  .sum("quantity")
                  .first[0]
-
-    # select("items.*, count(invoice_items.quantity) as item_count")
-    #   .joins(invoice_items: :invoices)
-    #   .group("items.id")
-    #   .order("item_count DESC")
-    #   .
-    #   .limit(quantity)
   end
 end
