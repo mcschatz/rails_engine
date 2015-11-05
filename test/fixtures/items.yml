@@ -1,15 +1,15 @@
 one:
   name: Coffee
   description: java
-  unit_price: 80
+  unit_price: 80.90
   merchant_id: 298486374
 two:
   name: Chocolate
   description: dark
-  unit_price: 20
-  merchant_id: 980190962
+  unit_price: 20.76
+  merchant_id: 298486374
 three:
   name: Wine
   description: pinot noir
-  unit_price: 15
+  unit_price: 15.13
   merchant_id: 980190962

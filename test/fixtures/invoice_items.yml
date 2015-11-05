@@ -1,11 +1,11 @@
 one:
   quantity: 10
-  unit_price: 50
-  item_id: 1
-  invoice_id: 1
+  unit_price: 50.00
+  item_id: 113629430
+  invoice_id: 113629430
 
 two:
   quantity: 2
-  unit_price: 25
-  item_id: 2
-  invoice_id: 2
+  unit_price: 25.00
+  item_id: 980190962
+  invoice_id: 113629430

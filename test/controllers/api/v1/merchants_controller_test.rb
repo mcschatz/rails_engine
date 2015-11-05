@@ -66,7 +66,7 @@ class Api::V1::MerchantsControllerTest < ActionController::TestCase
     item = items.first
 
     assert_response :success
-    assert_equal 2, items.count
+    assert_equal 1, items.count
     assert_equal "Wine", item[:name]
     assert_equal "pinot noir", item[:description]
   end
@@ -89,72 +89,64 @@ class Api::V1::MerchantsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_equal 2, merchants.count
-    assert_equal "BowWowWow", merchant[:name]
+    assert_equal "AWonderfulVase", merchant[:name]
   end
 
-  # test "#most_items" do
+  test "#most_items" do
+    get :most_items, format: :json, quantity: "1"
+    merchants = JSON.parse(response.body, symbolize_names: true)
+    merchant = merchants.first
 
-  #   get :most_items, format: :json, quantity: "1"
-  #   merchants = JSON.parse(response.body, symbolize_names: true)
-  #   merchant = merchants.first
+    assert_response :success
+    assert_equal 1, merchants.count
+    assert_equal "AWonderfulVase", merchant[:name]
+  end
 
-  #   assert_response :success
-  #   assert_equal 1, merchants.count
-  #   assert_equal "Yahoo", merchant[:name]
-  # end
+  test "#total revenue" do
+    get :revenue, format: :json
+    revenue = JSON.parse(response.body, symbolize_names: true)
 
-  # test "#total revenue" do
+    assert_response :success
+    assert_equal "1650.0", revenue[:total_revenue]
+  end
 
-  #   get :revenue, format: :json
-  #   revenue = JSON.parse(response.body, symbolize_names: true)
+  test "#total revenue with date" do
+    get :revenue, format: :json, date: "2013-03-13T06:54:11.000Z"
+    revenue = JSON.parse(response.body, symbolize_names: true)
 
-  #   assert_response :success
-  #   assert_equal "17909.6", revenue[:total_revenue]
-  # end
+    assert_response :success
+    assert_equal "1650.0", revenue[:total_revenue]
+  end
 
-  # test "#total revenue with date" do
+  test "#revenue for single merchant" do
+    get :revenue, format: :json, id: Merchant.last.id
+    revenue = JSON.parse(response.body, symbolize_names: true)
 
-  #   get :revenue, format: :json, date: '2015-03-13T06:54:11.000Z'
-  #   revenue = JSON.parse(response.body, symbolize_names: true)
+    assert_response :success
+    assert_equal "1650.0", revenue[:revenue]
+  end
 
-  #   assert_response :success
-  #   assert_equal "11752.0", revenue[:total_revenue]
-  # end
+  test "#revenue for single merchant with date" do
+    get :revenue, format: :json, id: Merchant.second.id, date: "2013-03-13T06:54:11.000Z"
+    revenue = JSON.parse(response.body, symbolize_names: true)
 
-  # test "#revenue for single merchant" do
+    assert_response :success
+    assert_equal "0.0", revenue[:revenue]
+  end
 
-  #   get :revenue, format: :json, merchant_id: Merchant.last.id
-  #   revenue = JSON.parse(response.body, symbolize_names: true)
+  test "#favorite_customer" do
+    get :favorite_customer, format: :json, id: Merchant.last.id
+    customer = JSON.parse(response.body, symbolize_names: true)
 
-  #   assert_response :success
-  #   assert_equal "11752.0", revenue[:revenue]
-  # end
+    assert_response :success
+    assert_equal "Grape", customer[:first_name]
+  end
 
-  # test "#revenue for single merchant with date" do
-
-  #   get :revenue, format: :json, merchant_id: Merchant.first.id, date: "2012-03-13T06:54:11.000Z"
-  #   revenue = JSON.parse(response.body, symbolize_names: true)
-
-  #   assert_response :success
-  #   assert_equal "281.25", revenue[:revenue]
-  # end
-
-  # test "#favorite_customer" do
-
-  #   get :favorite_customer, format: :json, merchant_id: Merchant.last.id
-  #   customer = JSON.parse(response.body, symbolize_names: true)
-
-  #   assert_response :success
-  #   assert_equal "Fred", customer[:first_name]
-  # end
-
-  # test "#customers_with_pending_invoices" do
-
-  # get :customers_with_pending_invoices, format: :json, merchant_id: Merchant.last.id
-  # customers = JSON.parse(response.body, symbolize_names: true)
-  # customer = customers.first
-
-  # assert_response :success
-  # assert_equal "Sue", customer[:first_name]
-  # end
+  test "#customers_with_pending_invoices" do
+    get :customers_with_pending_invoices, format: :json, id: Merchant.last.id
+    customers = JSON.parse(response.body, symbolize_names: true)
+    customer = customers.first
+    assert_response :success
+    assert_equal "Grape", customer[:first_name]
+  end
 end
