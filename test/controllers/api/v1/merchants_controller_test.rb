@@ -28,12 +28,19 @@ class Api::V1::MerchantsControllerTest < ActionController::TestCase
     get :show, id: merchant.id, format: :json
 
     json_response = JSON.parse(response.body)
-
     assert_equal json_response["name"], "AWonderfulVase"
   end
 
-  test "#find_all" do
+  test "#find" do
+    get :find, format: :json, name: "BowWowWow"
+    merchants = JSON.parse(response.body, symbolize_names: true)
 
+    assert_response :success
+    assert_equal "BowWowWow", merchants[:name]
+    assert_equal 4, merchants.count
+  end
+
+  test "#find_all" do
     get :find_all, format: :json, name: "BowWowWow"
     merchants = JSON.parse(response.body, symbolize_names: true)
     merchant = merchants.first
@@ -64,28 +71,26 @@ class Api::V1::MerchantsControllerTest < ActionController::TestCase
     assert_equal "pinot noir", item[:description]
   end
 
-  # test "#invoices" do
+  test "#invoices" do
+    merchant = merchants(:two)
+    get :invoices, id: merchant.id, format: :json
+    invoices = JSON.parse(response.body, symbolize_names: true)
+    invoice = invoices.first
 
-  #   get :invoices, format: :json, merchant_id: Merchant.last.id
-  #   invoices = JSON.parse(response.body, symbolize_names: true)
-  #   invoice = invoices.first
+    assert_response :success
+    assert_equal 2, invoices.count
+    assert_equal "shipped", invoice[:status]
+  end
 
-  #   assert_response :success
-  #   assert_equal 2, invoices.count
-  #   assert_equal "shipped", invoice[:status]
+  test "#most_revenue" do
+    get :most_revenue, format: :json, quantity: "2"
+    merchants = JSON.parse(response.body, symbolize_names: true)
+    merchant = merchants.first
 
-  # end
-
-  # test "#most_revenue" do
-
-  #   get :most_revenue, format: :json, quantity: "2"
-  #   merchants = JSON.parse(response.body, symbolize_names: true)
-  #   merchant = merchants.first
-
-  #   assert_response :success
-  #   assert_equal 2, merchants.count
-  #   assert_equal "Google", merchant[:name]
-  # end
+    assert_response :success
+    assert_equal 2, merchants.count
+    assert_equal "BowWowWow", merchant[:name]
+  end
 
   # test "#most_items" do
 

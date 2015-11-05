@@ -28,6 +28,6 @@ class Api::V1::ItemsControllerTest < ActionController::TestCase
     get :show, id: item.id, format: :json
 
     json_response = JSON.parse(response.body)
-    assert_equal json_response["merchant_id"], 2
+    assert_equal json_response["merchant_id"], 298486374
   end
 end
