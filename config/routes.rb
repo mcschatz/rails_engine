@@ -40,6 +40,7 @@ Rails.application.routes.draw do
         member do
           get :invoice_items
           get :merchant
+          get :best_day
         end
 
         collection do
