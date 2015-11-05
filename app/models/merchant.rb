@@ -27,8 +27,11 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.total_revenue(date)
-    total = self.all.map { |merchant| merchant.revenue(date) }.sum
-    total.round(2)
+    select("merchants.*")
+      .joins(invoices: :invoice_items)
+      .merge(InvoiceItem.successful)
+      .where(invoices: { created_at: date })
+      .sum('quantity * unit_price')
   end
 
   def self.most_items(quantity)

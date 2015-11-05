@@ -101,14 +101,6 @@ class Api::V1::MerchantsControllerTest < ActionController::TestCase
     assert_equal "AWonderfulVase", merchant[:name]
   end
 
-  test "#total revenue" do
-    get :total_revenue, format: :json
-    revenue = JSON.parse(response.body, symbolize_names: true)
-
-    assert_response :success
-    assert_equal "1650.0", revenue[:total_revenue]
-  end
-
   test "#total revenue with date" do
     get :total_revenue, format: :json, date: "2013-03-13T06:54:11.000Z"
     revenue = JSON.parse(response.body, symbolize_names: true)
@@ -126,11 +118,11 @@ class Api::V1::MerchantsControllerTest < ActionController::TestCase
   end
 
   test "#revenue for single merchant with date" do
-    get :revenue, format: :json, id: Merchant.second.id, date: "2013-03-13T06:54:11.000Z"
+    get :revenue, format: :json, id: Merchant.last.id, date: "2013-03-13T06:54:11.000Z"
     revenue = JSON.parse(response.body, symbolize_names: true)
 
     assert_response :success
-    assert_equal "0.0", revenue[:revenue]
+    assert_equal "1650.0", revenue[:revenue]
   end
 
   test "#favorite_customer" do
