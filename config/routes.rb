@@ -3,8 +3,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :merchants, only: [:index,:show] do
         member do
-          get :items
-          get :invoices
+          get :items, to: "items#merchant_items"
+          get :invoices, to: "invoices#merchant_invoices"
           get :revenue
           get :favorite_customer
           get :customers_with_pending_invoices

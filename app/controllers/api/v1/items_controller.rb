@@ -29,6 +29,10 @@ class Api::V1::ItemsController < ApplicationController
     respond_with Item.find_by(item_params).merchant
   end
 
+  def merchant_items
+    respond_with Item.where(merchant_id: params[:id])
+  end
+
   def most_revenue
     respond_with Item.unscoped.most_revenue(params[:quantity])
   end
