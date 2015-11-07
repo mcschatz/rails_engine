@@ -21,14 +21,6 @@ class Api::V1::CustomersController < ApplicationController
     respond_with Customer.limit(1).order("RANDOM()")
   end
 
-  def transactions
-    respond_with Customer.find_by(customer_params).transactions
-  end
-
-  def invoices
-    respond_with Customer.find_by(customer_params).invoices
-  end
-
   def favorite_merchant
     respond_with Customer.find(params[:id]).favorite_merchant
   end

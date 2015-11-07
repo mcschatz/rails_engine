@@ -66,9 +66,10 @@ Rails.application.routes.draw do
       end
 
       resources :customers, only: [:index,:show] do
+        resources :invoices, only: [:index], module: "customers"
+        resources :transactions, only: [:index], module: "customers"
+
         member do
-          get :invoices
-          get :transactions
           get :favorite_merchant
         end
 
