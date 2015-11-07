@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       end
 
       resources :invoices, only: [:index,:show] do
+
         member do
           get :items
           get :transactions
@@ -38,9 +39,10 @@ Rails.application.routes.draw do
       end
 
       resources :items, only: [:index,:show] do
+        resources :invoice_items, only: [:index], module: "items"
+
         member do
-          get :invoice_items
-          get :merchant
+          get :merchant, to: "items/merchants#show"
           get :best_day
         end
 
