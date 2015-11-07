@@ -55,7 +55,7 @@ Rails.application.routes.draw do
 
       resources :transactions, only: [:index,:show] do
         member do
-          get :invoice
+          get "invoice", to: "transactions/invoices#show"
         end
 
         collection do
@@ -68,7 +68,6 @@ Rails.application.routes.draw do
       resources :customers, only: [:index,:show] do
         resources :invoices, only: [:index], module: "customers"
         resources :transactions, only: [:index], module: "customers"
-
         member do
           get :favorite_merchant
         end
@@ -81,7 +80,6 @@ Rails.application.routes.draw do
       end
 
       resources :invoice_items, only: [:index,:show] do
-
         member do
           get "invoice", to: "invoice_items/invoices#show"
           get "item", to: "invoice_items/items#show"
