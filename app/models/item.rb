@@ -34,4 +34,8 @@ class Item < ActiveRecord::Base
                  .sum("quantity")
                  .first[0]
   end
+
+  def self.item_for_invoice_item(invoice_item_id)
+    joins(:invoice_items).where(invoice_items: {id: invoice_item_id}).first
+  end
 end
