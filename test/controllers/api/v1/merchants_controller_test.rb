@@ -59,29 +59,6 @@ class Api::V1::MerchantsControllerTest < ActionController::TestCase
     assert_equal 1, merchant.count
   end
 
-  test "#items" do
-    merchant = merchants(:one)
-    get :items, id: merchant.id, format: :json
-    items = JSON.parse(response.body, symbolize_names: true)
-    item = items.first
-
-    assert_response :success
-    assert_equal 1, items.count
-    assert_equal "Wine", item[:name]
-    assert_equal "pinot noir", item[:description]
-  end
-
-  test "#invoices" do
-    merchant = merchants(:two)
-    get :invoices, id: merchant.id, format: :json
-    invoices = JSON.parse(response.body, symbolize_names: true)
-    invoice = invoices.first
-
-    assert_response :success
-    assert_equal 2, invoices.count
-    assert_equal "shipped", invoice[:status]
-  end
-
   test "#most_revenue" do
     get :most_revenue, format: :json, quantity: "2"
     merchants = JSON.parse(response.body, symbolize_names: true)
