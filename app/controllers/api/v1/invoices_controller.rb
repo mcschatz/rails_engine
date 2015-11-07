@@ -37,10 +37,6 @@ class Api::V1::InvoicesController < ApplicationController
     respond_with Invoice.find_by(invoice_params).merchant
   end
 
-  def merchant_invoices
-    respond_with Invoice.where(merchant_id: params[:id])
-  end
-
   def invoice_items
     respond_with Invoice.find_by(invoice_params).invoice_items
   end

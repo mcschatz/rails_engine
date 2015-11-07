@@ -2,9 +2,10 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :merchants, only: [:index,:show] do
+        resources :items, only: [:index], module: "merchants"
+        resources :invoices, only: [:index], module: "merchants"
+
         member do
-          get :items, to: "items#merchant_items"
-          get :invoices, to: "invoices#merchant_invoices"
           get :revenue
           get :favorite_customer
           get :customers_with_pending_invoices
