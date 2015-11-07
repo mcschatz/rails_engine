@@ -81,8 +81,11 @@ Rails.application.routes.draw do
       end
 
       resources :invoice_items, only: [:index,:show] do
-        get "invoice", to: "invoice_items/invoices#show", module: "invoice_items"
-        get "item", to: "invoice_items/items#show", module: "invoice_items"
+
+        member do
+          get "invoice", to: "invoice_items/invoices#show"
+          get "item", to: "invoice_items/items#show"
+        end
 
         collection do
           get 'find'
