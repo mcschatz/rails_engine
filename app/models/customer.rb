@@ -11,4 +11,8 @@ class Customer < ActiveRecord::Base
                     .order("invoice_count DESC")
                     .first
   end
+
+  def self.invoices(id)
+    joins(:invoices).where(invoices: { id: id }).first
+  end
 end

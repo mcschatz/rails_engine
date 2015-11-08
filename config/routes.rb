@@ -2,9 +2,10 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :merchants, only: [:index,:show] do
+        resources :items, only: [:index], module: "merchants"
+        resources :invoices, only: [:index], module: "merchants"
+
         member do
-          get :items
-          get :invoices
           get :revenue
           get :favorite_customer
           get :customers_with_pending_invoices
@@ -21,12 +22,13 @@ Rails.application.routes.draw do
       end
 
       resources :invoices, only: [:index,:show] do
+        resources :items, only: [:index], module: "invoices"
+        resources :transactions, only: [:index], module: "invoices"
+        resources :invoice_items, only: [:index], module: "invoices"
+
         member do
-          get :items
-          get :transactions
-          get :invoice_items
-          get :customer
-          get :merchant
+          get :customer, to: "invoices/customers#show"
+          get :merchant, to: "invoices/merchants#show"
         end
 
         collection do
@@ -37,9 +39,10 @@ Rails.application.routes.draw do
       end
 
       resources :items, only: [:index,:show] do
+        resources :invoice_items, only: [:index], module: "items"
+
         member do
-          get :invoice_items
-          get :merchant
+          get :merchant, to: "items/merchants#show"
           get :best_day
         end
 
@@ -54,7 +57,7 @@ Rails.application.routes.draw do
 
       resources :transactions, only: [:index,:show] do
         member do
-          get :invoice
+          get "invoice", to: "transactions/invoices#show"
         end
 
         collection do
@@ -65,9 +68,10 @@ Rails.application.routes.draw do
       end
 
       resources :customers, only: [:index,:show] do
+        resources :invoices, only: [:index], module: "customers"
+        resources :transactions, only: [:index], module: "customers"
+
         member do
-          get :invoices
-          get :transactions
           get :favorite_merchant
         end
 
@@ -80,8 +84,8 @@ Rails.application.routes.draw do
 
       resources :invoice_items, only: [:index,:show] do
         member do
-          get :invoice
-          get :item
+          get "invoice", to: "invoice_items/invoices#show"
+          get "item", to: "invoice_items/items#show"
         end
 
         collection do

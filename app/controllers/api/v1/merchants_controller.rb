@@ -21,14 +21,6 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with Merchant.limit(1).order("RANDOM()")
   end
 
-  def items
-    respond_with Merchant.find_by(merchant_params).items
-  end
-
-  def invoices
-    respond_with Merchant.find_by(merchant_params).invoices
-  end
-
   def most_revenue
     respond_with Merchant.most_revenue(params[:quantity])
   end

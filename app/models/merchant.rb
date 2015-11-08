@@ -55,4 +55,12 @@ class Merchant < ActiveRecord::Base
   def pending_invoices
     invoices.pending.map(&:customer).uniq
   end
+
+  def self.items(id)
+    joins(:items).where(items: { id: id }).first
+  end
+
+  def self.invoices(id)
+    joins(:invoices).where(invoices: { id: id }).first
+  end
 end

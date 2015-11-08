@@ -61,26 +61,6 @@ class Api::V1::CustomersControllerTest < ActionController::TestCase
     assert_equal 1, customer.count
   end
 
-  test "#invoices" do
-
-    get :invoices, format: :json, id: Customer.last.id
-    invoices = JSON.parse(response.body, symbolize_names: true)
-    invoice = invoices.first
-
-    assert_response :success
-    assert_equal 980190962, invoice[:customer_id]
-  end
-
-  test "#transactions" do
-
-    get :transactions, format: :json, id: Customer.first.id
-    transactions = JSON.parse(response.body, symbolize_names: true)
-    transaction = transactions.first
-
-    assert_response :success
-    assert_equal "1111222233334444", transaction[:credit_card_number]
-  end
-
   test "#favorite_merchant" do
 
     get :favorite_merchant, format: :json, id: Customer.last.id

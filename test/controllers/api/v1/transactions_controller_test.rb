@@ -60,13 +60,4 @@ class Api::V1::TransactionsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 1, transaction.count
   end
-
-  test "#invoice" do
-    get :invoice, format: :json, id: Transaction.last.id
-    invoice = JSON.parse(response.body, symbolize_names: true)
-
-    assert_response :success
-    assert_equal 113629430, invoice[:id]
-
-  end
 end
