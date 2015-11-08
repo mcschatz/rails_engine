@@ -36,6 +36,10 @@ class Item < ActiveRecord::Base
   end
 
   def self.item_for_invoice_item(invoice_item_id)
-    joins(:invoice_items).where(invoice_items: {id: invoice_item_id}).first
+    joins(:invoice_items).where(invoice_items: { id: invoice_item_id }).first
+  end
+
+  def self.invoices(id)
+    joins(:invoices).where(invoices: { id: id })
   end
 end

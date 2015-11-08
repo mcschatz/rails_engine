@@ -22,13 +22,13 @@ Rails.application.routes.draw do
       end
 
       resources :invoices, only: [:index,:show] do
+        resources :items, only: [:index], module: "invoices"
+        resources :transactions, only: [:index], module: "invoices"
+        resources :invoice_items, only: [:index], module: "invoices"
 
         member do
-          get :items
-          get :transactions
-          get :invoice_items
-          get :customer
-          get :merchant
+          get :customer, to: "invoices/customers#show"
+          get :merchant, to: "invoices/merchants#show"
         end
 
         collection do
@@ -70,6 +70,7 @@ Rails.application.routes.draw do
       resources :customers, only: [:index,:show] do
         resources :invoices, only: [:index], module: "customers"
         resources :transactions, only: [:index], module: "customers"
+
         member do
           get :favorite_merchant
         end

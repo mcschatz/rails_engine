@@ -59,4 +59,8 @@ class Merchant < ActiveRecord::Base
   def self.items(id)
     joins(:items).where(items: { id: id }).first
   end
+
+  def self.invoices(id)
+    joins(:invoices).where(invoices: { id: id }).first
+  end
 end
